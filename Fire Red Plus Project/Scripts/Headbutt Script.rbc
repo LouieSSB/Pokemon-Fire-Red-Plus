@@ -1,0 +1,46 @@
+#dynamic 0x800000
+#org @start
+lockall
+checkattack 0x1D 'This is Headbutt
+compare 0x800D 0x06
+if 0x01 goto @Unable 'Checks for headbutt
+msgbox @Want 0x5 'Yes/no box
+compare 0x800D 0x1
+if 0x1 goto @yes
+releaseall
+end
+
+#org @yes
+checkattack 0x1D 'Headbutt
+setanimation 0x0 LASTRESULT
+bufferpartypokemon 0x0 LASTRESULT
+bufferattack 0x1 0x1d
+msgbox 0x81BDFB3 MSG_KEEPOPEN '"[buffer1] used [buffer2]!"
+doanimation 0x25
+waitstate
+random 0x2
+compare LASTRESULT 0x1
+if 0x1 goto @success
+msgbox @failure 0x6
+releaseall
+end
+
+#org @success
+special 0xAB
+waitstate
+releaseall
+end
+
+#org @Want
+= This tree may contain a Pokémon.\nWant to use headbutt?
+
+#org @Unable 'If you dont have headbutt
+msgbox @Could 0x6
+releaseall
+end
+
+#org @Could
+= This tree looks like it could be\nheadbutted.
+
+#org @failure
+= Nothing fell out of the tree...

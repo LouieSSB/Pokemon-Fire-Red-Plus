@@ -1,0 +1,4 @@
+#dynamic 0x800000
+#org @start
+giveitem 0x106 0x1 MSG_FIND
+end
